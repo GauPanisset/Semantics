@@ -1,3 +1,5 @@
+import sys
+
 cpt = 0
 def next():
     global cpt
@@ -108,37 +110,6 @@ mov [%s], rax
 """ % (self.sucs[1].gamma(), self.sucs[0].label)
                         
                 
-##                reg = "rax"
-##                if len(self.sucs[1].sucs) > 0:
-##                    reg = "al"
-##                if len(self.sucs[0].sucs) > 0:
-##                    return """
-##%s
-##mov [%s + %d], %s
-##""" % (self.sucs[1].gamma(), self.sucs[0].label, int(self.sucs[0].sucs[0].label), reg)
-##
-##                
-##                elif self.sucs[1].type == "string":
-##                    code = ""
-##                    tmp = self.sucs[1].label[0]
-##                    i = 1
-##                    while(i < len(self.sucs[1].label)):
-##                        if i%8 == 0:
-##                            code += """
-##mov rax, "%s"
-##mov [%s + %d], rax
-##""" % (tmp, self.sucs[0].label, i - 8)
-##                            tmp = self.sucs[1].label[i]
-##                        else:
-##                            tmp += self.sucs[1].label[i]
-##                        i += 1
-##                    code += """
-##mov rax, "%s"
-##mov [%s + %d], rax
-##""" % (tmp, self.sucs[0].label, i - i%8)   
-##                    return code
-##                else:    
-##                    return "%s\nmov [%s], %s\n" % (self.sucs[1].gamma(),self.sucs[0].label, reg)
             elif self.label == "seq":
                 return "%s\n%s\n" % (self.sucs[0].gamma(), self.sucs[1].gamma())
             else:
@@ -207,6 +178,12 @@ w2 = '''main(x) {chaine = "abcd"; chaine[2] = "e" ; x = chaine[2] return x;}'''
 w3 = '''main(x) {chaine = "abcqsdqsdqsdqdqdqd" ; x = len(chaine) return x;}'''
 w4 = '''main(x) {chaine = "abcdef" ; chaine2 = "ghijkl" ; chaine[3] = chaine2[5] ; x = chaine[3] return x;}'''
 w = w4
+
+if len(sys.argv) > 1:
+    file = open(sys.argv[1], 'r')
+    w = file.read()
+    file.close()
+
 lexer.input(w)
 for tok in lexer:
     print("%s %s %s %s" % (tok.type, tok.value, tok.lineno, tok.lexpos))
@@ -285,13 +262,18 @@ print(x)
 
 print(set(x.vars()))
 
-f = open("moule.asm", "r")
-code = f.read()
-f.close()
+moule = open("moule.asm", "r")
+code = moule.read()
+moule.close()
 
 code = code.replace("VAR_DECLS", x.var_decls())
 code = code.replace("VAR_INIT", x.var_init())
 code = code.replace("BODY", x.gamma())
 code = code.replace("RET_EXPR", x.sucs[2].gamma())
+
+out = open("sortie.asm", "w")
+out.write(code)
+out.close()
+
 print(code)
 

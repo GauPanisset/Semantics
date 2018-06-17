@@ -3,10 +3,9 @@ extern printf, atoi
 section .data
 hello: db "return %d", 10, 0
 
-ghijkl: dq "ghijkl", 0
+e: dq "e", 0
 x: dq 0
-abcdef: dq "abcdef", 0
-chaine2: dq 0
+abcd: dq "abcd", 0
 chaine: dq 0
 
 
@@ -26,34 +25,26 @@ mov [x], rax
 
 
 
-mov rax, abcdef
+mov rax, abcd
 
 mov [chaine], rax
 
 
-mov rax, ghijkl
-
-mov [chaine2], rax
-
-
-
-mov rax, [chaine2]
-add rax, 5
+mov rax, e
 
 mov rbx, rax
 mov rax, [chaine]
-add rax, 3
+add rax, 2
 mov rcx, [rbx] 
 mov [rax], rcx
 
 
 
 mov rax, [chaine]
-add rax, 3
+add rax, 2
 
 mov al, byte [rax]
 mov [x], al
-
 
 
 
