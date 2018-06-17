@@ -1,0 +1,1 @@
+main(x) {chaine = "abcd"; chaine[2] = "e" ; x = chaine[2] return x;}

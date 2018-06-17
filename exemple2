@@ -1,0 +1,1 @@
+main(x) {chaine = "abcqsdqsdqsdqdqdqd" ; x = len(chaine) return x;}
